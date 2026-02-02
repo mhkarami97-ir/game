@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="بازی کلاسیک دوز - Tic-Tac-Toe Game">
+    <meta name="keywords" content="tic-tac-toe, دوز, game, بازی, XO">
+    <meta name="author" content="Tic-Tac-Toe Game">
+    <title>بازی دوز - Tic-Tac-Toe Game</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <h1 id="pageTitle">بازی دوز</h1>
+            <div class="header-info">
+                <div class="info-item">
+                    <span class="info-label" id="playerXLabel">بازیکن X</span>
+                    <span class="info-value" id="playerXScore">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label" id="turnLabel">نوبت</span>
+                    <span class="info-value" id="currentTurnLabel">X</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label" id="playerOLabel">بازیکن O</span>
+                    <span class="info-value" id="playerOScore">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="game-container">
+                <div id="gameBoard"></div>
+                <div id="gameOverlay" class="game-overlay hidden">
+                    <div class="overlay-content">
+                        <h2 id="overlayTitle">بازی تمام شد!</h2>
+                        <p id="overlayMessage"></p>
+                        <button id="restartBtn" class="btn btn-primary">شروع مجدد</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-panel">
+                <div class="game-controls">
+                    <button id="startBtn" class="btn btn-primary">شروع بازی</button>
+                    <div id="gameControls" class="hidden">
+                        <button id="newGameBtn" class="btn btn-primary">بازی جدید</button>
+                        <button id="undoBtn" class="btn btn-secondary">برگشت</button>
+                        <button id="hintBtn" class="btn btn-secondary">راهنمایی</button>
+                    </div>
+                </div>
+
+                <div class="settings-panel">
+                    <h3 id="settingsTitle">تنظیمات</h3>
+                    
+                    <div class="setting-group">
+                        <label id="gameModeLabel">حالت بازی:</label>
+                        <select id="gameModeSelect" class="select-input">
+                            <option value="twoPlayers" id="twoPlayersOption">دو نفره</option>
+                            <option value="vsComputer" id="vsComputerOption">با کامپیوتر</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group difficulty-group hidden">
+                        <label id="difficultyLabel">سختی:</label>
+                        <select id="difficultySelect" class="select-input">
+                            <option value="easy">آسان</option>
+                            <option value="medium" selected>متوسط</option>
+                            <option value="hard">سخت</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="soundEffectsCheck" checked>
+                            <span id="soundEffectsLabel">افکت صوتی</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="animationsCheck" checked>
+                            <span id="animationsLabel">انیمیشن</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="stats-panel">
+                    <button id="statsBtn" class="btn btn-secondary">آمار بازی</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="statsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="statsModalTitle">آمار بازی</h2>
+                <button class="modal-close" id="statsModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label" id="totalGamesLabel">تعداد بازی‌ها:</span>
+                        <span class="stat-value" id="totalGamesValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="playerXWinsLabel">بازیکن X برد:</span>
+                        <span class="stat-value" id="playerXWinsValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="playerOWinsLabel">بازیکن O برد:</span>
+                        <span class="stat-value" id="playerOWinsValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="drawsLabel">مساوی:</span>
+                        <span class="stat-value" id="drawsValue">0</span>
+                    </div>
+                </div>
+                <div class="history-section">
+                    <h3 id="historyTitle">تاریخچه بازی‌ها</h3>
+                    <div id="historyList" class="history-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="resetStatsBtn" class="btn btn-danger">بازنشانی آمار</button>
+                <button id="closeStatsBtn" class="btn btn-secondary">بستن</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/script.js"></script>
+    <script src="../assets/tool-wrapper.js"></script>
+</body>
+</html>
