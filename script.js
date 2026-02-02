@@ -15,7 +15,15 @@ const tools = [
         faDesc: 'بازی دوز کلاسیک',
         enDesc: 'Classic tic tac toe game',
         icon: '⭕❌'
-    }
+    },
+    {
+        path: 'memory_card',
+        faName: 'حافظه کارتی',
+        enName: 'Memory Card',
+        faDesc: 'بازی پیدا کردن کارت‌های مشابه',
+        enDesc: 'Find matching cards game',
+        icon: '🃏'
+    },
 ];
 
 // Sort tools alphabetically by Persian name
