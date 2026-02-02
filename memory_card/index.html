@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="بازی حافظه کارتی - Memory Card Game">
+    <meta name="keywords" content="memory card, حافظه کارتی, game, بازی, پازل">
+    <meta name="author" content="Memory Card Game">
+    <title>بازی حافظه کارتی - Memory Card Game</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <h1 id="pageTitle" data-i18n="title">بازی حافظه کارتی</h1>
+            <div class="header-info">
+                <div class="info-item">
+                    <span class="info-label" id="movesLabel" data-i18n="moves">حرکت‌ها</span>
+                    <span class="info-value" id="movesCount">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label" id="timerLabel" data-i18n="timer">زمان</span>
+                    <span class="info-value" id="timerDisplay">00:00</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label" id="scoreLabel" data-i18n="score">امتیاز</span>
+                    <span class="info-value" id="scoreDisplay">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="game-container">
+                <div id="gameBoard" class="game-board"></div>
+                <div id="gameOverlay" class="game-overlay hidden">
+                    <div class="overlay-content">
+                        <h2 id="overlayTitle" data-i18n="congratulations">تبریک!</h2>
+                        <p id="overlayMessage"></p>
+                        <div class="overlay-stats">
+                            <div class="overlay-stat">
+                                <span class="overlay-stat-label" data-i18n="finalTime">زمان نهایی:</span>
+                                <span class="overlay-stat-value" id="finalTime">00:00</span>
+                            </div>
+                            <div class="overlay-stat">
+                                <span class="overlay-stat-label" data-i18n="totalMoves">کل حرکت‌ها:</span>
+                                <span class="overlay-stat-value" id="finalMoves">0</span>
+                            </div>
+                            <div class="overlay-stat">
+                                <span class="overlay-stat-label" data-i18n="finalScore">امتیاز نهایی:</span>
+                                <span class="overlay-stat-value" id="finalScore">0</span>
+                            </div>
+                        </div>
+                        <button id="playAgainBtn" class="btn btn-primary" data-i18n="playAgain">بازی مجدد</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-panel">
+                <div class="game-controls">
+                    <button id="startBtn" class="btn btn-primary" data-i18n="startGame">شروع بازی</button>
+                    <div id="gameControls" class="hidden">
+                        <button id="newGameBtn" class="btn btn-primary" data-i18n="newGame">بازی جدید</button>
+                        <button id="pauseBtn" class="btn btn-secondary" data-i18n="pause">توقف</button>
+                    </div>
+                </div>
+
+                <div class="settings-panel">
+                    <h3 id="settingsTitle" data-i18n="settings">تنظیمات</h3>
+                    
+                    <div class="setting-group">
+                        <label id="difficultyLabel" data-i18n="difficulty">سختی:</label>
+                        <select id="difficultySelect" class="select-input">
+                            <option value="easy" data-i18n="easy">آسان (4×4)</option>
+                            <option value="medium" selected data-i18n="medium">متوسط (6×4)</option>
+                            <option value="hard" data-i18n="hard">سخت (6×6)</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label id="themeLabel" data-i18n="cardTheme">تم کارت‌ها:</label>
+                        <select id="themeSelect" class="select-input">
+                            <option value="emoji" selected data-i18n="emoji">ایموجی</option>
+                            <option value="numbers" data-i18n="numbers">اعداد</option>
+                            <option value="colors" data-i18n="colors">رنگ‌ها</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="soundEffectsCheck" checked>
+                            <span id="soundEffectsLabel" data-i18n="soundEffects">افکت صوتی</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="animationsCheck" checked>
+                            <span id="animationsLabel" data-i18n="animations">انیمیشن</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="timerCheck" checked>
+                            <span id="timerCheckLabel" data-i18n="enableTimer">فعال کردن تایمر</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="stats-panel">
+                    <button id="statsBtn" class="btn btn-secondary" data-i18n="statistics">آمار بازی</button>
+                    <button id="leaderboardBtn" class="btn btn-secondary" data-i18n="leaderboard">جدول رتبه‌بندی</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="statsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="statsModalTitle" data-i18n="statistics">آمار بازی</h2>
+                <button class="modal-close" id="statsModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label" id="totalGamesLabel" data-i18n="totalGames">تعداد بازی‌ها:</span>
+                        <span class="stat-value" id="totalGamesValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="completedGamesLabel" data-i18n="completedGames">بازی‌های تکمیل شده:</span>
+                        <span class="stat-value" id="completedGamesValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="bestTimeLabel" data-i18n="bestTime">بهترین زمان:</span>
+                        <span class="stat-value" id="bestTimeValue">--:--</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="bestScoreLabel" data-i18n="bestScore">بهترین امتیاز:</span>
+                        <span class="stat-value" id="bestScoreValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="averageMovesLabel" data-i18n="averageMoves">میانگین حرکت‌ها:</span>
+                        <span class="stat-value" id="averageMovesValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="totalPlayTimeLabel" data-i18n="totalPlayTime">مجموع زمان بازی:</span>
+                        <span class="stat-value" id="totalPlayTimeValue">00:00:00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="resetStatsBtn" class="btn btn-danger" data-i18n="resetStats">بازنشانی آمار</button>
+                <button id="closeStatsBtn" class="btn btn-secondary" data-i18n="close">بستن</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="leaderboardModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="leaderboardModalTitle" data-i18n="leaderboard">جدول رتبه‌بندی</h2>
+                <button class="modal-close" id="leaderboardModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="leaderboard-tabs">
+                    <button class="tab-btn active" data-difficulty="easy" data-i18n="easy">آسان</button>
+                    <button class="tab-btn" data-difficulty="medium" data-i18n="medium">متوسط</button>
+                    <button class="tab-btn" data-difficulty="hard" data-i18n="hard">سخت</button>
+                </div>
+                <div id="leaderboardList" class="leaderboard-list"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="clearLeaderboardBtn" class="btn btn-danger" data-i18n="clearLeaderboard">پاک کردن جدول</button>
+                <button id="closeLeaderboardBtn" class="btn btn-secondary" data-i18n="close">بستن</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/script.js"></script>
+    <script src="../assets/tool-wrapper.js"></script>
+</body>
+</html>
+
