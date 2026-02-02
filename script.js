@@ -1,12 +1,12 @@
 ﻿// Tools data
 const tools = [
     {
-        path: 'story-map',
-        faName: 'نقشه داستان',
-        enName: 'Story Map',
-        faDesc: 'ساخت نقشه داستان برای پروژه‌ها',
-        enDesc: 'Create story maps for projects',
-        icon: '🗂️'
+        path: 'snake',
+        faName: 'مار',
+        enName: 'Snake Game',
+        faDesc: 'بازی کلاسیک مار',
+        enDesc: 'Classic snake game',
+        icon: '🐍'
     }
 ];
 
