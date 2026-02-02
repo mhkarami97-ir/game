@@ -173,7 +173,7 @@ self.addEventListener('push', (event) => {
     };
 
     event.waitUntil(
-        self.registration.showNotification('ابزارهای وب', options)
+        self.registration.showNotification('بازی وب', options)
     );
 });
 

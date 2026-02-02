@@ -5,7 +5,7 @@
     const CONFIG = {
         homeUrl: '/',
         emailServiceUrl: 'https://formspree.io/f/mpzbwnop',
-        toolName: document.title || 'ابزار'
+        toolName: document.title || 'بازی'
     };
 
     // Initialize when DOM is ready
