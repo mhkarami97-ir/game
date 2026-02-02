@@ -15,16 +15,16 @@
 <body>
     <div id="app">
         <header class="header">
-            <h1 id="pageTitle">بازی مار</h1>
+            <h1 id="pageTitle" data-i18n="title">بازی مار</h1>
             <div class="header-info">
                 <div class="info-item">
-                    <span id="scoreLabel">امتیاز</span>: <span id="scoreValue">0</span>
+                    <span id="scoreLabel" data-i18n="score">امتیاز</span>: <span id="scoreValue">0</span>
                 </div>
                 <div class="info-item">
-                    <span id="highScoreLabel">بهترین امتیاز</span>: <span id="highScoreValue">0</span>
+                    <span id="highScoreLabel" data-i18n="highScore">بهترین امتیاز</span>: <span id="highScoreValue">0</span>
                 </div>
                 <div class="info-item">
-                    <span id="levelLabel">سطح</span>: <span id="levelValue">1</span>
+                    <span id="levelLabel" data-i18n="level">سطح</span>: <span id="levelValue">1</span>
                 </div>
             </div>
         </header>
@@ -34,74 +34,74 @@
                 <canvas id="gameCanvas"></canvas>
                 <div id="gameOverlay" class="game-overlay hidden">
                     <div class="overlay-content">
-                        <h2 id="overlayTitle">بازی تمام شد!</h2>
+                        <h2 id="overlayTitle" data-i18n="gameOver">بازی تمام شد!</h2>
                         <p id="overlayMessage"></p>
-                        <button id="restartBtn" class="btn btn-primary">شروع مجدد</button>
+                        <button id="restartBtn" class="btn btn-primary" data-i18n="restartGame">شروع مجدد</button>
                     </div>
                 </div>
                 <div id="pauseOverlay" class="pause-overlay hidden">
                     <div class="pause-content">
-                        <h2 id="pausedText">متوقف شد</h2>
-                        <p id="pressSpaceText">Space را برای ادامه فشار دهید</p>
+                        <h2 id="pausedText" data-i18n="paused">متوقف شد</h2>
+                        <p id="pressSpaceText" data-i18n="pressSpaceToContinue">Space را برای ادامه فشار دهید</p>
                     </div>
                 </div>
             </div>
 
             <div class="controls-panel">
                 <div class="game-controls">
-                    <button id="startBtn" class="btn btn-primary">شروع بازی</button>
-                    <button id="pauseBtn" class="btn btn-secondary hidden">توقف بازی</button>
+                    <button id="startBtn" class="btn btn-primary" data-i18n="startGame">شروع بازی</button>
+                    <button id="pauseBtn" class="btn btn-secondary hidden" data-i18n="pauseGame">توقف بازی</button>
                 </div>
 
                 <div class="settings-panel">
-                    <h3 id="settingsTitle">تنظیمات</h3>
+                    <h3 id="settingsTitle" data-i18n="settings">تنظیمات</h3>
                     
                     <div class="setting-group">
-                        <label id="difficultyLabel">سختی:</label>
+                        <label id="difficultyLabel" data-i18n="difficulty" data-i18n-append=":">سختی:</label>
                         <select id="difficultySelect" class="select-input">
-                            <option value="easy">آسان</option>
-                            <option value="medium" selected>متوسط</option>
-                            <option value="hard">سخت</option>
-                            <option value="expert">حرفه‌ای</option>
+                            <option value="easy" data-i18n="easy">آسان</option>
+                            <option value="medium" selected data-i18n="medium">متوسط</option>
+                            <option value="hard" data-i18n="hard">سخت</option>
+                            <option value="expert" data-i18n="expert">حرفه‌ای</option>
                         </select>
                     </div>
 
                     <div class="setting-group">
-                        <label id="gridSizeLabel">اندازه شبکه:</label>
+                        <label id="gridSizeLabel" data-i18n="gridSize" data-i18n-append=":">اندازه شبکه:</label>
                         <select id="gridSizeSelect" class="select-input">
-                            <option value="small">کوچک</option>
-                            <option value="normal" selected>عادی</option>
-                            <option value="large">بزرگ</option>
+                            <option value="small" data-i18n="small">کوچک</option>
+                            <option value="normal" selected data-i18n="normal">عادی</option>
+                            <option value="large" data-i18n="large">بزرگ</option>
                         </select>
                     </div>
 
                     <div class="setting-group checkbox-group">
                         <label>
                             <input type="checkbox" id="soundEffectsCheck" checked>
-                            <span id="soundEffectsLabel">افکت صوتی</span>
+                            <span id="soundEffectsLabel" data-i18n="soundEffects">افکت صوتی</span>
                         </label>
                     </div>
 
                     <div class="setting-group checkbox-group">
                         <label>
                             <input type="checkbox" id="musicCheck">
-                            <span id="musicLabel">موسیقی</span>
+                            <span id="musicLabel" data-i18n="music">موسیقی</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="controls-info">
-                    <h3 id="controlsTitle">کنترل‌ها</h3>
+                    <h3 id="controlsTitle" data-i18n="controlsTitle">کنترل‌ها</h3>
                     <ul>
-                        <li id="controlsArrows">فلش‌ها: حرکت</li>
-                        <li id="controlsWASD">W/A/S/D: حرکت</li>
-                        <li id="controlsSpace">Space: توقف/ادامه</li>
-                        <li id="controlsR">R: شروع مجدد</li>
+                        <li id="controlsArrows" data-i18n="controlsArrows">فلش‌ها: حرکت</li>
+                        <li id="controlsWASD" data-i18n="controlsWASD">W/A/S/D: حرکت</li>
+                        <li id="controlsSpace" data-i18n="controlsSpace">Space: توقف/ادامه</li>
+                        <li id="controlsR" data-i18n="controlsR">R: شروع مجدد</li>
                     </ul>
                 </div>
 
                 <div class="stats-panel">
-                    <button id="statsBtn" class="btn btn-secondary">آمار بازی</button>
+                    <button id="statsBtn" class="btn btn-secondary" data-i18n="statistics">آمار بازی</button>
                 </div>
             </div>
         </main>
@@ -110,40 +110,40 @@
     <div id="statsModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="statsModalTitle">آمار بازی</h2>
+                <h2 id="statsModalTitle" data-i18n="statistics">آمار بازی</h2>
                 <button class="modal-close" id="statsModalClose">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <span class="stat-label" id="totalGamesLabel">تعداد بازی‌ها:</span>
+                        <span class="stat-label" id="totalGamesLabel" data-i18n="totalGames" data-i18n-append=":">تعداد بازی‌ها:</span>
                         <span class="stat-value" id="totalGamesValue">0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label" id="totalScoreLabel">مجموع امتیاز:</span>
+                        <span class="stat-label" id="totalScoreLabel" data-i18n="totalScore" data-i18n-append=":">مجموع امتیاز:</span>
                         <span class="stat-value" id="totalScoreValue">0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label" id="averageScoreLabel">میانگین امتیاز:</span>
+                        <span class="stat-label" id="averageScoreLabel" data-i18n="averageScore" data-i18n-append=":">میانگین امتیاز:</span>
                         <span class="stat-value" id="averageScoreValue">0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label" id="longestSnakeLabel">طولانی‌ترین مار:</span>
+                        <span class="stat-label" id="longestSnakeLabel" data-i18n="longestSnake" data-i18n-append=":">طولانی‌ترین مار:</span>
                         <span class="stat-value" id="longestSnakeValue">0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label" id="playTimeLabel">زمان بازی:</span>
+                        <span class="stat-label" id="playTimeLabel" data-i18n="playTime" data-i18n-append=":">زمان بازی:</span>
                         <span class="stat-value" id="playTimeValue">0</span>
                     </div>
                 </div>
                 <div class="leaderboard-section">
-                    <h3 id="leaderboardTitle">جدول امتیازات</h3>
+                    <h3 id="leaderboardTitle" data-i18n="leaderboard">جدول امتیازات</h3>
                     <div id="leaderboardList" class="leaderboard-list"></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="resetStatsBtn" class="btn btn-danger">بازنشانی آمار</button>
-                <button id="closeStatsBtn" class="btn btn-secondary">بستن</button>
+                <button id="resetStatsBtn" class="btn btn-danger" data-i18n="resetStats">بازنشانی آمار</button>
+                <button id="closeStatsBtn" class="btn btn-secondary" data-i18n="close">بستن</button>
             </div>
         </div>
     </div>

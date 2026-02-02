@@ -8,9 +8,7 @@ var SnakeGame = (function() {
         tileCount: 20,
         difficulty: 'medium',
         soundEnabled: true,
-        musicEnabled: false,
-        currentLanguage: 'fa',
-        translations: null
+        musicEnabled: false
     };
 
     var gameState = {
@@ -155,98 +153,10 @@ var SnakeGame = (function() {
     }
 
     function loadSettings() {
-        var savedLang = localStorage.getItem('snakeGameLanguage') || 'fa';
-        var savedTheme = localStorage.getItem('snakeGameTheme') || 'light';
-        
-        config.currentLanguage = savedLang;
-        setLanguage(savedLang);
-        setTheme(savedTheme);
-
         var savedHighScore = localStorage.getItem('snakeHighScore');
         if (savedHighScore) {
             gameState.highScore = parseInt(savedHighScore, 10);
             updateDisplay();
-        }
-    }
-
-    function saveSettings() {
-        localStorage.setItem('snakeGameLanguage', config.currentLanguage);
-    }
-
-    function setLanguage(lang) {
-        config.currentLanguage = lang;
-        document.documentElement.lang = lang;
-        document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
-        saveSettings();
-        updateTranslations();
-    }
-
-    function setTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('snakeGameTheme', theme);
-    }
-
-    function updateTranslations() {
-        if (!config.translations) return;
-
-        var t = config.translations[config.currentLanguage];
-        
-        document.getElementById('pageTitle').textContent = t.title;
-        document.title = t.title;
-        document.getElementById('scoreLabel').textContent = t.score;
-        document.getElementById('highScoreLabel').textContent = t.highScore;
-        document.getElementById('levelLabel').textContent = t.level;
-        document.getElementById('overlayTitle').textContent = t.gameOver;
-        document.getElementById('pausedText').textContent = t.paused;
-        document.getElementById('pressSpaceText').textContent = t.pressSpaceToContinue;
-        document.getElementById('restartBtn').textContent = t.restartGame;
-        document.getElementById('settingsTitle').textContent = t.settings;
-        document.getElementById('difficultyLabel').textContent = t.difficulty + ':';
-        document.getElementById('gridSizeLabel').textContent = t.gridSize + ':';
-        document.getElementById('soundEffectsLabel').textContent = t.soundEffects;
-        document.getElementById('musicLabel').textContent = t.music;
-        document.getElementById('controlsTitle').textContent = t.controlsTitle;
-        document.getElementById('controlsArrows').textContent = t.controlsArrows;
-        document.getElementById('controlsWASD').textContent = t.controlsWASD;
-        document.getElementById('controlsSpace').textContent = t.controlsSpace;
-        document.getElementById('controlsR').textContent = t.controlsR;
-        document.getElementById('statsBtn').textContent = t.statistics;
-        document.getElementById('statsModalTitle').textContent = t.statistics;
-        document.getElementById('totalGamesLabel').textContent = t.totalGames + ':';
-        document.getElementById('totalScoreLabel').textContent = t.totalScore + ':';
-        document.getElementById('averageScoreLabel').textContent = t.averageScore + ':';
-        document.getElementById('longestSnakeLabel').textContent = t.longestSnake + ':';
-        document.getElementById('playTimeLabel').textContent = t.playTime + ':';
-        document.getElementById('leaderboardTitle').textContent = t.leaderboard;
-        document.getElementById('resetStatsBtn').textContent = t.resetStats;
-        document.getElementById('closeStatsBtn').textContent = t.close;
-
-        var difficultySelect = document.getElementById('difficultySelect');
-        difficultySelect.options[0].text = t.easy;
-        difficultySelect.options[1].text = t.medium;
-        difficultySelect.options[2].text = t.hard;
-        difficultySelect.options[3].text = t.expert;
-
-        var gridSizeSelect = document.getElementById('gridSizeSelect');
-        gridSizeSelect.options[0].text = t.small;
-        gridSizeSelect.options[1].text = t.normal;
-        gridSizeSelect.options[2].text = t.large;
-
-        updateButtonText();
-    }
-
-    function updateButtonText() {
-        if (!config.translations) return;
-        
-        var t = config.translations[config.currentLanguage];
-        var startBtn = document.getElementById('startBtn');
-        var pauseBtn = document.getElementById('pauseBtn');
-
-        if (gameState.isRunning) {
-            startBtn.textContent = t.restartGame;
-            pauseBtn.textContent = gameState.isPaused ? t.resumeGame : t.pauseGame;
-        } else {
-            startBtn.textContent = t.startGame;
         }
     }
 
@@ -311,8 +221,6 @@ var SnakeGame = (function() {
         document.getElementById('startBtn').classList.add('hidden');
         document.getElementById('pauseBtn').classList.remove('hidden');
         document.getElementById('gameOverlay').classList.add('hidden');
-        
-        updateButtonText();
         gameLoop();
     }
 
@@ -321,7 +229,6 @@ var SnakeGame = (function() {
         
         gameState.isPaused = true;
         document.getElementById('pauseOverlay').classList.remove('hidden');
-        updateButtonText();
     }
 
     function resumeGame() {
@@ -329,7 +236,6 @@ var SnakeGame = (function() {
         
         gameState.isPaused = false;
         document.getElementById('pauseOverlay').classList.add('hidden');
-        updateButtonText();
     }
 
     function stopGame() {
@@ -350,8 +256,6 @@ var SnakeGame = (function() {
         document.getElementById('startBtn').classList.remove('hidden');
         document.getElementById('pauseBtn').classList.add('hidden');
         document.getElementById('pauseOverlay').classList.add('hidden');
-        
-        updateButtonText();
     }
 
     function gameLoop() {
@@ -547,10 +451,6 @@ var SnakeGame = (function() {
     function gameOver() {
         stopGame();
         
-        var t = config.translations[config.currentLanguage];
-        var message = t.score + ': ' + gameState.score;
-        
-        document.getElementById('overlayMessage').textContent = message;
         document.getElementById('gameOverlay').classList.remove('hidden');
         
         playSound('gameOver');
@@ -596,8 +496,6 @@ var SnakeGame = (function() {
     }
 
     function updateStatsDisplay() {
-        var t = config.translations[config.currentLanguage];
-        
         document.getElementById('totalGamesValue').textContent = stats.totalGames;
         document.getElementById('totalScoreValue').textContent = stats.totalScore;
         
@@ -610,57 +508,54 @@ var SnakeGame = (function() {
         var hours = Math.floor(stats.totalPlayTime / 3600);
         var minutes = Math.floor((stats.totalPlayTime % 3600) / 60);
         var timeText = hours > 0 ? 
-            hours + ':' + minutes.toString().padStart(2, '0') + ' ' + t.minutes :
-            minutes + ' ' + t.minutes;
+            hours + ':' + minutes.toString().padStart(2, '0') :
+            minutes.toString();
         document.getElementById('playTimeValue').textContent = timeText;
 
         var leaderboardList = document.getElementById('leaderboardList');
         leaderboardList.innerHTML = '';
 
         if (stats.games.length === 0) {
-            leaderboardList.innerHTML = '<p style="text-align:center;opacity:0.6;padding:1rem;">' + 
-                (config.currentLanguage === 'fa' ? 'هنوز بازی انجام نشده است' : 'No games played yet') + 
-                '</p>';
-        } else {
-            for (var i = 0; i < stats.games.length; i++) {
-                var game = stats.games[i];
-                var item = document.createElement('div');
-                item.className = 'leaderboard-item';
-                
-                var rank = document.createElement('div');
-                rank.className = 'leaderboard-rank';
-                rank.textContent = (i + 1);
-                
-                var info = document.createElement('div');
-                info.className = 'leaderboard-info';
-                
-                var score = document.createElement('div');
-                score.className = 'leaderboard-score';
-                score.textContent = t.score + ': ' + game.score;
-                
-                var details = document.createElement('div');
-                details.className = 'leaderboard-details';
-                var date = new Date(game.date);
-                var dateStr = date.toLocaleDateString(config.currentLanguage === 'fa' ? 'fa-IR' : 'en-US');
-                var timeStr = Math.floor(game.playTime / 60) + ':' + 
-                    (game.playTime % 60).toString().padStart(2, '0');
-                details.textContent = dateStr + ' • ' + t.level + ' ' + game.level + 
-                    ' • ' + timeStr;
-                
-                info.appendChild(score);
-                info.appendChild(details);
-                
-                item.appendChild(rank);
-                item.appendChild(info);
-                
-                leaderboardList.appendChild(item);
-            }
+            return;
+        }
+        
+        for (var i = 0; i < stats.games.length; i++) {
+            var game = stats.games[i];
+            var item = document.createElement('div');
+            item.className = 'leaderboard-item';
+            
+            var rank = document.createElement('div');
+            rank.className = 'leaderboard-rank';
+            rank.textContent = (i + 1);
+            
+            var info = document.createElement('div');
+            info.className = 'leaderboard-info';
+            
+            var score = document.createElement('div');
+            score.className = 'leaderboard-score';
+            score.textContent = game.score;
+            
+            var details = document.createElement('div');
+            details.className = 'leaderboard-details';
+            var date = new Date(game.date);
+            var dateStr = date.toLocaleDateString();
+            var timeStr = Math.floor(game.playTime / 60) + ':' + 
+                (game.playTime % 60).toString().padStart(2, '0');
+            details.textContent = dateStr + ' • ' + game.level + 
+                ' • ' + timeStr;
+            
+            info.appendChild(score);
+            info.appendChild(details);
+            
+            item.appendChild(rank);
+            item.appendChild(info);
+            
+            leaderboardList.appendChild(item);
         }
     }
 
     function resetStats() {
-        var t = config.translations[config.currentLanguage];
-        if (confirm(t.confirmReset)) {
+        if (confirm('آیا مطمئنید که می‌خواهید آمار را بازنشانی کنید؟\nAre you sure you want to reset statistics?')) {
             clearStatsFromDB();
         }
     }
@@ -792,40 +687,19 @@ var SnakeGame = (function() {
 
         document.addEventListener('keydown', handleKeyPress);
 
-        if (window.parent !== window) {
-            window.addEventListener('message', function(event) {
-                if (event.data.type === 'languageChange') {
-                    setLanguage(event.data.language);
-                } else if (event.data.type === 'themeChange') {
-                    setTheme(event.data.theme);
-                }
-            });
-        }
-    }
-
-    function loadTranslations() {
-        return fetch('translations.json')
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                config.translations = data;
-                updateTranslations();
-            })
-            .catch(function(error) {
-                console.error('Error loading translations:', error);
-            });
+        window.addEventListener('languageChanged', function() {
+            if (window.ToolWrapper) {
+                window.ToolWrapper.applyTranslations(window.ToolWrapper.getCurrentLanguage());
+            }
+        });
     }
 
     function init() {
         initIndexedDB();
         loadSettings();
         initCanvas();
-        
-        loadTranslations().then(function() {
-            bindEvents();
-            draw();
-        });
+        bindEvents();
+        draw();
     }
 
     return {

@@ -15,18 +15,18 @@
 <body>
     <div id="app">
         <header class="header">
-            <h1 id="pageTitle">بازی دوز</h1>
+            <h1 id="pageTitle" data-i18n="title">بازی دوز</h1>
             <div class="header-info">
                 <div class="info-item">
-                    <span class="info-label" id="playerXLabel">بازیکن X</span>
+                    <span class="info-label" id="playerXLabel" data-i18n="playerX">بازیکن X</span>
                     <span class="info-value" id="playerXScore">0</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label" id="turnLabel">نوبت</span>
+                    <span class="info-label" id="turnLabel" data-i18n="currentTurn">نوبت</span>
                     <span class="info-value" id="currentTurnLabel">X</span>
                 </div>
                 <div class="info-item">
-                    <span class="info-label" id="playerOLabel">بازیکن O</span>
+                    <span class="info-label" id="playerOLabel" data-i18n="playerO">بازیکن O</span>
                     <span class="info-value" id="playerOScore">0</span>
                 </div>
             </div>
@@ -37,60 +37,60 @@
                 <div id="gameBoard"></div>
                 <div id="gameOverlay" class="game-overlay hidden">
                     <div class="overlay-content">
-                        <h2 id="overlayTitle">بازی تمام شد!</h2>
+                        <h2 id="overlayTitle" data-i18n="gameOver">بازی تمام شد!</h2>
                         <p id="overlayMessage"></p>
-                        <button id="restartBtn" class="btn btn-primary">شروع مجدد</button>
+                        <button id="restartBtn" class="btn btn-primary" data-i18n="restartGame">شروع مجدد</button>
                     </div>
                 </div>
             </div>
 
             <div class="controls-panel">
                 <div class="game-controls">
-                    <button id="startBtn" class="btn btn-primary">شروع بازی</button>
+                    <button id="startBtn" class="btn btn-primary" data-i18n="startGame">شروع بازی</button>
                     <div id="gameControls" class="hidden">
-                        <button id="newGameBtn" class="btn btn-primary">بازی جدید</button>
-                        <button id="undoBtn" class="btn btn-secondary">برگشت</button>
-                        <button id="hintBtn" class="btn btn-secondary">راهنمایی</button>
+                        <button id="newGameBtn" class="btn btn-primary" data-i18n="newGame">بازی جدید</button>
+                        <button id="undoBtn" class="btn btn-secondary" data-i18n="undo">برگشت</button>
+                        <button id="hintBtn" class="btn btn-secondary" data-i18n="hint">راهنمایی</button>
                     </div>
                 </div>
 
                 <div class="settings-panel">
-                    <h3 id="settingsTitle">تنظیمات</h3>
+                    <h3 id="settingsTitle" data-i18n="settings">تنظیمات</h3>
                     
                     <div class="setting-group">
-                        <label id="gameModeLabel">حالت بازی:</label>
+                        <label id="gameModeLabel" data-i18n="gameMode">حالت بازی:</label>
                         <select id="gameModeSelect" class="select-input">
-                            <option value="twoPlayers" id="twoPlayersOption">دو نفره</option>
-                            <option value="vsComputer" id="vsComputerOption">با کامپیوتر</option>
+                            <option value="twoPlayers" id="twoPlayersOption" data-i18n="twoPlayers">دو نفره</option>
+                            <option value="vsComputer" id="vsComputerOption" data-i18n="vsComputer">با کامپیوتر</option>
                         </select>
                     </div>
 
                     <div class="setting-group difficulty-group hidden">
-                        <label id="difficultyLabel">سختی:</label>
+                        <label id="difficultyLabel" data-i18n="difficulty">سختی:</label>
                         <select id="difficultySelect" class="select-input">
-                            <option value="easy">آسان</option>
-                            <option value="medium" selected>متوسط</option>
-                            <option value="hard">سخت</option>
+                            <option value="easy" data-i18n="easy">آسان</option>
+                            <option value="medium" selected data-i18n="medium">متوسط</option>
+                            <option value="hard" data-i18n="hard">سخت</option>
                         </select>
                     </div>
 
                     <div class="setting-group checkbox-group">
                         <label>
                             <input type="checkbox" id="soundEffectsCheck" checked>
-                            <span id="soundEffectsLabel">افکت صوتی</span>
+                            <span id="soundEffectsLabel" data-i18n="soundEffects">افکت صوتی</span>
                         </label>
                     </div>
 
                     <div class="setting-group checkbox-group">
                         <label>
                             <input type="checkbox" id="animationsCheck" checked>
-                            <span id="animationsLabel">انیمیشن</span>
+                            <span id="animationsLabel" data-i18n="animations">انیمیشن</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="stats-panel">
-                    <button id="statsBtn" class="btn btn-secondary">آمار بازی</button>
+                    <button id="statsBtn" class="btn btn-secondary" data-i18n="statistics">آمار بازی</button>
                 </div>
             </div>
         </main>
@@ -99,36 +99,36 @@
     <div id="statsModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="statsModalTitle">آمار بازی</h2>
+                <h2 id="statsModalTitle" data-i18n="statistics">آمار بازی</h2>
                 <button class="modal-close" id="statsModalClose">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <span class="stat-label" id="totalGamesLabel">تعداد بازی‌ها:</span>
+                        <span class="stat-label" id="totalGamesLabel" data-i18n="totalGames" data-i18n-append=":">تعداد بازی‌ها:</span>
                         <span class="stat-value" id="totalGamesValue">0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label" id="playerXWinsLabel">بازیکن X برد:</span>
+                        <span class="stat-label" id="playerXWinsLabel" data-i18n="playerXWins">بازیکن X برد:</span>
                         <span class="stat-value" id="playerXWinsValue">0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label" id="playerOWinsLabel">بازیکن O برد:</span>
+                        <span class="stat-label" id="playerOWinsLabel" data-i18n="playerOWins">بازیکن O برد:</span>
                         <span class="stat-value" id="playerOWinsValue">0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-label" id="drawsLabel">مساوی:</span>
+                        <span class="stat-label" id="drawsLabel" data-i18n="draws" data-i18n-append=":">مساوی:</span>
                         <span class="stat-value" id="drawsValue">0</span>
                     </div>
                 </div>
                 <div class="history-section">
-                    <h3 id="historyTitle">تاریخچه بازی‌ها</h3>
+                    <h3 id="historyTitle" data-i18n="history">تاریخچه بازی‌ها</h3>
                     <div id="historyList" class="history-list"></div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="resetStatsBtn" class="btn btn-danger">بازنشانی آمار</button>
-                <button id="closeStatsBtn" class="btn btn-secondary">بستن</button>
+                <button id="resetStatsBtn" class="btn btn-danger" data-i18n="resetStats">بازنشانی آمار</button>
+                <button id="closeStatsBtn" class="btn btn-secondary" data-i18n="close">بستن</button>
             </div>
         </div>
     </div>

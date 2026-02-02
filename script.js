@@ -7,6 +7,14 @@ const tools = [
         faDesc: 'بازی کلاسیک مار',
         enDesc: 'Classic snake game',
         icon: '🐍'
+    },
+    {
+        path: 'tic_tac_toe',
+        faName: 'دوز',
+        enName: 'Tic Tac Toe',
+        faDesc: 'بازی دوز کلاسیک',
+        enDesc: 'Classic tic tac toe game',
+        icon: '⭕❌'
     }
 ];
 

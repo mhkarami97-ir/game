@@ -5,8 +5,20 @@
     const CONFIG = {
         homeUrl: '/',
         emailServiceUrl: 'https://formspree.io/f/mpzbwnop',
-        toolName: document.title || 'بازی'
+        toolName: document.title || 'بازی',
+        getTranslationsPath: function() {
+            var currentPath = window.location.pathname;
+            var pathParts = currentPath.split('/').filter(function(p) { return p; });
+            
+            if (pathParts.length > 0 && pathParts[pathParts.length - 1].endsWith('.html')) {
+                pathParts.pop();
+            }
+            
+            return 'assets/translations.json';
+        }
     };
+
+    let translations = null;
 
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
@@ -22,6 +34,7 @@
         adjustBodyPadding();
         applyDarkMode();
         initializeThemeAndLanguage();
+        loadTranslations();
     }
 
     function injectToolWrapper() {
@@ -270,6 +283,7 @@
         localStorage.setItem('lang', newLang);
         applyLanguage(newLang);
         updateLanguageButton(newLang);
+        applyTranslations(newLang);
         
         window.dispatchEvent(new CustomEvent('languageChanged', { detail: newLang }));
     }
@@ -279,6 +293,12 @@
         html.setAttribute('lang', lang);
         html.setAttribute('dir', lang === 'fa' ? 'rtl' : 'ltr');
         document.body.style.direction = lang === 'fa' ? 'rtl' : 'ltr';
+        
+        const backBtn = document.getElementById('toolBackBtn');
+        if (backBtn) {
+            const arrowIcon = lang === 'fa' ? '→' : '←';
+            backBtn.textContent = arrowIcon;
+        }
     }
 
     function updateLanguageButton(lang) {
@@ -286,6 +306,42 @@
         if (langText) {
             langText.textContent = lang === 'fa' ? 'EN' : 'FA';
         }
+    }
+
+    async function loadTranslations() {
+        try {
+            const translationsPath = CONFIG.getTranslationsPath();
+            console.log('Loading translations from:', translationsPath);
+            const response = await fetch(translationsPath);
+            if (response.ok) {
+                translations = await response.json();
+                const currentLang = localStorage.getItem('lang') || 'fa';
+                applyTranslations(currentLang);
+            } else {
+                console.log('Translations file not found at:', translationsPath);
+            }
+        } catch (error) {
+            console.log('Error loading translations:', error);
+        }
+    }
+
+    function applyTranslations(lang) {
+        if (!translations || !translations[lang]) return;
+        
+        const langData = translations[lang];
+        
+        if (langData.title) {
+            document.title = langData.title;
+        }
+        
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (langData[key]) {
+                const append = element.getAttribute('data-i18n-append') || '';
+                element.textContent = langData[key] + append;
+            }
+        });
     }
 
     // Export for potential external use
@@ -309,7 +365,11 @@
         },
         getCurrentLanguage: function() {
             return localStorage.getItem('lang') || 'fa';
-        }
+        },
+        getTranslations: function() {
+            return translations;
+        },
+        applyTranslations: applyTranslations
     };
 })();
 

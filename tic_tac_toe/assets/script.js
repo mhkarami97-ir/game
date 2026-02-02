@@ -39,68 +39,13 @@ var TicTacToeGame = (function() {
         [0, 4, 8], [2, 4, 6]
     ];
 
-    var translations = {};
-    var currentLang = localStorage.getItem('language') || 'fa';
-
     function init() {
-        loadTranslations();
         loadSettings();
         loadStats();
         setupEventListeners();
         renderBoard();
         updateUI();
         updateScoreDisplay();
-    }
-
-    function loadTranslations() {
-        fetch('assets/translations.json')
-            .then(function(response) { return response.json(); })
-            .then(function(data) {
-                translations = data;
-                updateTexts();
-            })
-            .catch(function(error) {
-                console.error('Error loading translations:', error);
-            });
-    }
-
-    function updateTexts() {
-        if (!translations || !translations[currentLang]) return;
-        
-        var lang = translations[currentLang] || translations['fa'];
-        
-        document.getElementById('pageTitle').textContent = lang.title;
-        document.getElementById('playerXLabel').textContent = lang.playerX;
-        document.getElementById('playerOLabel').textContent = lang.playerO;
-        document.getElementById('turnLabel').textContent = lang.currentTurn;
-        document.getElementById('startBtn').textContent = lang.startGame;
-        document.getElementById('newGameBtn').textContent = lang.newGame;
-        document.getElementById('undoBtn').textContent = lang.undo;
-        document.getElementById('hintBtn').textContent = lang.hint;
-        document.getElementById('settingsTitle').textContent = lang.settings;
-        document.getElementById('gameModeLabel').textContent = lang.gameMode;
-        document.getElementById('twoPlayersOption').textContent = lang.twoPlayers;
-        document.getElementById('vsComputerOption').textContent = lang.vsComputer;
-        document.getElementById('difficultyLabel').textContent = lang.difficulty;
-        
-        var difficultySelect = document.getElementById('difficultySelect');
-        difficultySelect.options[0].textContent = lang.easy;
-        difficultySelect.options[1].textContent = lang.medium;
-        difficultySelect.options[2].textContent = lang.hard;
-        
-        document.getElementById('soundEffectsLabel').textContent = lang.soundEffects;
-        document.getElementById('animationsLabel').textContent = lang.animations;
-        document.getElementById('statsBtn').textContent = lang.statistics;
-        
-        document.getElementById('statsModalTitle').textContent = lang.statistics;
-        document.getElementById('totalGamesLabel').textContent = lang.totalGames + ':';
-        document.getElementById('playerXWinsLabel').textContent = lang.playerX + ' ' + lang.wins + ':';
-        document.getElementById('playerOWinsLabel').textContent = lang.playerO + ' ' + lang.wins + ':';
-        document.getElementById('drawsLabel').textContent = lang.draws + ':';
-        document.getElementById('resetStatsBtn').textContent = lang.resetStats;
-        document.getElementById('closeStatsBtn').textContent = lang.close;
-        
-        updateTurnDisplay();
     }
 
     function setupEventListeners() {
@@ -134,13 +79,10 @@ var TicTacToeGame = (function() {
             saveSettings();
         });
 
-        document.addEventListener('languageChanged', function() {
-            currentLang = localStorage.getItem('language') || 'fa';
-            updateTexts();
-        });
-
-        document.addEventListener('themeChanged', function() {
-            updateUI();
+        window.addEventListener('languageChanged', function() {
+            if (window.ToolWrapper) {
+                window.ToolWrapper.applyTranslations(window.ToolWrapper.getCurrentLanguage());
+            }
         });
     }
 
@@ -192,11 +134,9 @@ var TicTacToeGame = (function() {
         }
         
         gameState.currentPlayer = gameState.currentPlayer === 'X' ? 'O' : 'X';
-        updateTurnDisplay();
         
         if (gameState.gameMode === 'vsComputer' && gameState.currentPlayer === 'O') {
             gameState.computerThinking = true;
-            updateTurnDisplay();
             
             var delay = settings.thinkingTime === 'fast' ? 300 : 
                        settings.thinkingTime === 'slow' ? 1000 : 600;
@@ -204,7 +144,6 @@ var TicTacToeGame = (function() {
             setTimeout(function() {
                 computerMove();
                 gameState.computerThinking = false;
-                updateTurnDisplay();
             }, delay);
         }
     }
@@ -371,11 +310,14 @@ var TicTacToeGame = (function() {
         gameState.gameOver = true;
         gameState.gameActive = false;
         
-        var lang = translations[currentLang] || translations['fa'];
-        var message;
+        var overlayMessage = document.getElementById('overlayMessage');
         
         if (winner) {
-            message = lang.playerWins.replace('{player}', winner);
+            if (overlayMessage) {
+                overlayMessage.setAttribute('data-i18n', 'playerWins');
+                overlayMessage.setAttribute('data-i18n-replace', '{player}');
+                overlayMessage.setAttribute('data-i18n-value', winner);
+            }
             highlightWinningLine();
             
             if (winner === 'X') {
@@ -384,7 +326,9 @@ var TicTacToeGame = (function() {
                 gameStats.playerOWins++;
             }
         } else {
-            message = lang.draw;
+            if (overlayMessage) {
+                overlayMessage.setAttribute('data-i18n', 'draw');
+            }
             gameStats.draws++;
         }
         
@@ -405,7 +349,15 @@ var TicTacToeGame = (function() {
         updateStatsDisplay();
         updateScoreDisplay();
         
-        showGameOverMessage(message);
+        var overlay = document.getElementById('gameOverlay');
+        overlay.classList.remove('hidden');
+        if (settings.animations) {
+            overlay.classList.add('fade-in');
+        }
+        
+        if (window.ToolWrapper) {
+            window.ToolWrapper.applyTranslations(window.ToolWrapper.getCurrentLanguage());
+        }
         
         if (settings.soundEffects) {
             playSound(winner ? 'win' : 'draw');
@@ -425,25 +377,12 @@ var TicTacToeGame = (function() {
         });
     }
 
-    function showGameOverMessage(message) {
-        var overlay = document.getElementById('gameOverlay');
-        var overlayMessage = document.getElementById('overlayMessage');
-        
-        overlayMessage.textContent = message;
-        overlay.classList.remove('hidden');
-        
-        if (settings.animations) {
-            overlay.classList.add('fade-in');
-        }
-    }
-
     function startGame() {
         gameState.gameActive = true;
         gameState.gameOver = false;
         document.getElementById('startBtn').classList.add('hidden');
         document.getElementById('gameControls').classList.remove('hidden');
         document.getElementById('gameOverlay').classList.add('hidden');
-        updateTurnDisplay();
     }
 
     function resetGame() {
@@ -466,8 +405,6 @@ var TicTacToeGame = (function() {
             startGame();
         }
         
-        updateTurnDisplay();
-        
         if (gameState.gameMode === 'vsComputer' && gameState.currentPlayer === 'O') {
             setTimeout(computerMove, 600);
         }
@@ -488,8 +425,6 @@ var TicTacToeGame = (function() {
             
             gameState.currentPlayer = lastMove.player;
         }
-        
-        updateTurnDisplay();
     }
 
     function showHint() {
@@ -506,27 +441,6 @@ var TicTacToeGame = (function() {
             setTimeout(function() {
                 cells[bestMove].classList.remove('hint');
             }, 1000);
-        }
-    }
-
-    function updateTurnDisplay() {
-        if (!translations || !translations[currentLang]) return;
-        
-        var lang = translations[currentLang] || translations['fa'];
-        var turnLabel = document.getElementById('currentTurnLabel');
-        
-        if (!turnLabel) return;
-        
-        if (gameState.gameOver) {
-            turnLabel.textContent = lang.gameOver;
-        } else if (gameState.computerThinking) {
-            turnLabel.textContent = lang.thinking;
-        } else {
-            var playerName = gameState.currentPlayer;
-            if (gameState.gameMode === 'vsComputer' && gameState.currentPlayer === 'O') {
-                playerName = lang.computerPlayer;
-            }
-            turnLabel.textContent = playerName;
         }
     }
 
@@ -562,7 +476,7 @@ var TicTacToeGame = (function() {
         var historyList = document.getElementById('historyList');
         historyList.innerHTML = '';
         
-        var lang = translations[currentLang] || translations['fa'];
+        var currentLang = document.documentElement.lang || 'fa';
         
         gameStats.gamesHistory.forEach(function(game, index) {
             var item = document.createElement('div');
@@ -575,7 +489,7 @@ var TicTacToeGame = (function() {
                 minute: '2-digit'
             });
             
-            var winnerText = game.winner === 'draw' ? lang.draw : lang.player + ' ' + game.winner;
+            var winnerText = game.winner === 'draw' ? (currentLang === 'fa' ? 'مساوی' : 'Draw') : (currentLang === 'fa' ? 'بازیکن ' : 'Player ') + game.winner;
             
             item.innerHTML = '<span class="history-rank">' + (index + 1) + '</span>' +
                            '<span class="history-winner">' + winnerText + '</span>' +
@@ -585,14 +499,16 @@ var TicTacToeGame = (function() {
         });
         
         if (gameStats.gamesHistory.length === 0) {
-            historyList.innerHTML = '<p class="no-data">' + lang.noGamesYet + '</p>';
+            var noData = currentLang === 'fa' ? 'هنوز بازی انجام نشده' : 'No games yet';
+            historyList.innerHTML = '<p class="no-data">' + noData + '</p>';
         }
     }
 
     function resetStats() {
-        var lang = translations[currentLang] || translations['fa'];
+        var currentLang = document.documentElement.lang || 'fa';
+        var confirmMessage = currentLang === 'fa' ? 'آیا مطمئن هستید که می‌خواهید آمار را بازنشانی کنید؟' : 'Are you sure you want to reset statistics?';
         
-        if (confirm(lang.confirmReset)) {
+        if (confirm(confirmMessage)) {
             gameStats = {
                 totalGames: 0,
                 playerXWins: 0,
@@ -696,7 +612,6 @@ var TicTacToeGame = (function() {
     }
 
     function updateUI() {
-        updateTexts();
         updateStatsDisplay();
     }
 
