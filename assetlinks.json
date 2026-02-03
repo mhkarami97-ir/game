@@ -7,9 +7,9 @@ permalink: .well-known/assetlinks.json
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "mhk.game",
+      "package_name": "mhk.gamebox",
       "sha256_cert_fingerprints": [
-        ""
+        "2B:EC:15:BE:87:E0:FD:F1:CB:3C:E5:FE:CE:5C:CB:F1:C0:9C:EB:76:96:A3:C2:A1:CF:98:8E:F6:93:A0:54:CE"
       ]
     }
   },
@@ -17,9 +17,9 @@ permalink: .well-known/assetlinks.json
     "relation": ["check_validation"],
     "target": {
       "namespace": "cafebazaar_twa",
-      "package_name": "mhk.game",
+      "package_name": "mhk.gamebox",
       "sha256_cert_fingerprints": [
-        ""
+        "2B:EC:15:BE:87:E0:FD:F1:CB:3C:E5:FE:CE:5C:CB:F1:C0:9C:EB:76:96:A3:C2:A1:CF:98:8E:F6:93:A0:54:CE"
       ]
     }
   }
