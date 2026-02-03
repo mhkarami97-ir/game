@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="بازی کلاسیک سنگ کاغذ قیچی - Rock Paper Scissors Game">
+    <meta name="keywords" content="rock paper scissors, سنگ کاغذ قیچی, game, بازی">
+    <meta name="author" content="Rock Paper Scissors Game">
+    <title>بازی سنگ کاغذ قیچی - Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <h1 id="pageTitle" data-i18n="title">بازی سنگ کاغذ قیچی</h1>
+            <div class="header-info">
+                <div class="info-item">
+                    <span class="info-label" data-i18n="playerScore">امتیاز شما</span>
+                    <span class="info-value" id="playerScore">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label" data-i18n="round">دور</span>
+                    <span class="info-value" id="roundNumber">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label" data-i18n="computerScore">امتیاز کامپیوتر</span>
+                    <span class="info-value" id="computerScore">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="game-container">
+                <div class="game-board">
+                    <div class="player-section">
+                        <h2 data-i18n="yourChoice">انتخاب شما</h2>
+                        <div class="choice-display" id="playerChoice">
+                            <span class="choice-icon">❓</span>
+                        </div>
+                    </div>
+
+                    <div class="vs-section">
+                        <div class="vs-text">VS</div>
+                        <div class="result-display" id="resultDisplay">
+                            <p id="resultText" data-i18n="makeChoice">یک گزینه انتخاب کنید</p>
+                        </div>
+                    </div>
+
+                    <div class="computer-section">
+                        <h2 data-i18n="computerChoice">انتخاب کامپیوتر</h2>
+                        <div class="choice-display" id="computerChoice">
+                            <span class="choice-icon">❓</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="choices-container">
+                    <button class="choice-btn" data-choice="rock" disabled>
+                        <span class="choice-icon">✊</span>
+                        <span class="choice-text" data-i18n="rock">سنگ</span>
+                    </button>
+                    <button class="choice-btn" data-choice="paper" disabled>
+                        <span class="choice-icon">✋</span>
+                        <span class="choice-text" data-i18n="paper">کاغذ</span>
+                    </button>
+                    <button class="choice-btn" data-choice="scissors" disabled>
+                        <span class="choice-icon">✌️</span>
+                        <span class="choice-text" data-i18n="scissors">قیچی</span>
+                    </button>
+                </div>
+
+                <div class="game-controls">
+                    <button id="startBtn" class="btn btn-primary" data-i18n="startGame">شروع بازی</button>
+                    <button id="resetBtn" class="btn btn-secondary hidden" data-i18n="resetGame">بازی جدید</button>
+                </div>
+            </div>
+
+            <div class="controls-panel">
+                <div class="settings-panel">
+                    <h3 data-i18n="settings">تنظیمات</h3>
+                    
+                    <div class="setting-group">
+                        <label for="gameModeSelect" data-i18n="gameMode">حالت بازی:</label>
+                        <select id="gameModeSelect" class="select-input">
+                            <option value="unlimited" data-i18n="unlimited">نامحدود</option>
+                            <option value="bestOf3" data-i18n="bestOf3">بهترین از ۳</option>
+                            <option value="bestOf5" data-i18n="bestOf5" selected>بهترین از ۵</option>
+                            <option value="bestOf7" data-i18n="bestOf7">بهترین از ۷</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="difficultySelect" data-i18n="difficulty">سختی:</label>
+                        <select id="difficultySelect" class="select-input">
+                            <option value="easy" data-i18n="easy">آسان</option>
+                            <option value="medium" selected data-i18n="medium">متوسط</option>
+                            <option value="hard" data-i18n="hard">سخت</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="animationsCheck" checked>
+                            <span data-i18n="animations">انیمیشن</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="soundCheck" checked>
+                            <span data-i18n="sound">صدا</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="stats-panel">
+                    <h3 data-i18n="statistics">آمار بازی</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label" data-i18n="totalGames">کل بازی‌ها</span>
+                            <span class="stat-value" id="totalGames">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label" data-i18n="wins">برد</span>
+                            <span class="stat-value" id="playerWins">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label" data-i18n="losses">باخت</span>
+                            <span class="stat-value" id="playerLosses">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label" data-i18n="draws">مساوی</span>
+                            <span class="stat-value" id="draws">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label" data-i18n="winRate">نرخ برد</span>
+                            <span class="stat-value" id="winRate">0%</span>
+                        </div>
+                    </div>
+                    <button id="resetStatsBtn" class="btn btn-danger btn-sm" data-i18n="resetStats">بازنشانی آمار</button>
+                </div>
+
+                <div class="history-panel">
+                    <h3 data-i18n="recentGames">بازی‌های اخیر</h3>
+                    <div id="historyList" class="history-list"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="gameOverModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" data-i18n="gameOver">بازی تمام شد!</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-result">
+                    <p id="modalResult"></p>
+                    <div class="modal-stats">
+                        <div class="modal-stat">
+                            <span data-i18n="finalScore">امتیاز نهایی:</span>
+                            <span id="modalFinalScore"></span>
+                        </div>
+                        <div class="modal-stat">
+                            <span data-i18n="totalRounds">تعداد دورها:</span>
+                            <span id="modalTotalRounds"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="playAgainBtn" class="btn btn-primary" data-i18n="playAgain">بازی مجدد</button>
+                <button id="closeModalBtn" class="btn btn-secondary" data-i18n="close">بستن</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/script.js"></script>
+    <script src="../assets/tool-wrapper.js"></script>
+</body>
+</html>
+
