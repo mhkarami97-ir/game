@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="بازی کلاسیک پینگ پونگ - Ping Pong Game">
+    <meta name="keywords" content="ping pong, پینگ پونگ, game, بازی">
+    <meta name="author" content="Ping Pong Game">
+    <title>بازی پینگ پونگ - Ping Pong Game</title>
+    <link rel="stylesheet" href="../Vazirmatn-font-face.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="../assets/tool-wrapper.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <h1 id="pageTitle" data-i18n="title">بازی پینگ پونگ</h1>
+            <div class="header-info">
+                <div class="info-item">
+                    <span class="info-label" id="player1Label" data-i18n="player1">بازیکن ۱</span>
+                    <span class="info-value" id="player1Score">0</span>
+                </div>
+                <div class="info-item timer-info">
+                    <span class="info-label" id="timerLabel" data-i18n="time">زمان</span>
+                    <span class="info-value" id="timerValue">00:00</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label" id="player2Label" data-i18n="player2">بازیکن ۲</span>
+                    <span class="info-value" id="player2Score">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="game-container">
+                <canvas id="gameCanvas"></canvas>
+                <div id="gameOverlay" class="game-overlay hidden">
+                    <div class="overlay-content">
+                        <h2 id="overlayTitle" data-i18n="gameOver">بازی تمام شد!</h2>
+                        <p id="overlayMessage"></p>
+                        <button id="restartBtn" class="btn btn-primary" data-i18n="restartGame">شروع مجدد</button>
+                    </div>
+                </div>
+                <div id="pauseOverlay" class="game-overlay hidden">
+                    <div class="overlay-content">
+                        <h2 id="pauseTitle" data-i18n="paused">متوقف شد</h2>
+                        <p id="pauseMessage" data-i18n="pauseMessage">فاصله را بزنید تا ادامه دهید</p>
+                        <button id="resumeBtn" class="btn btn-primary" data-i18n="resume">ادامه</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-panel">
+                <div class="game-controls">
+                    <button id="startBtn" class="btn btn-primary" data-i18n="startGame">شروع بازی</button>
+                    <div id="gameControls" class="hidden">
+                        <button id="pauseBtn" class="btn btn-secondary" data-i18n="pause">توقف</button>
+                        <button id="newGameBtn" class="btn btn-primary" data-i18n="newGame">بازی جدید</button>
+                    </div>
+                </div>
+
+                <div class="settings-panel">
+                    <h3 id="settingsTitle" data-i18n="settings">تنظیمات</h3>
+                    
+                    <div class="setting-group">
+                        <label for="gameModeSelect" id="gameModeLabel" data-i18n="gameMode">حالت بازی:</label>
+                        <select id="gameModeSelect" class="select-input">
+                            <option value="twoPlayers" id="twoPlayersOption" data-i18n="twoPlayers">دو نفره</option>
+                            <option value="vsComputer" id="vsComputerOption" data-i18n="vsComputer">با کامپیوتر</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group difficulty-group">
+                        <label for="difficultySelect" id="difficultyLabel" data-i18n="difficulty">سختی:</label>
+                        <select id="difficultySelect" class="select-input">
+                            <option value="easy" data-i18n="easy">آسان</option>
+                            <option value="medium" selected data-i18n="medium">متوسط</option>
+                            <option value="hard" data-i18n="hard">سخت</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="ballSpeedSelect" id="ballSpeedLabel" data-i18n="ballSpeed">سرعت توپ:</label>
+                        <select id="ballSpeedSelect" class="select-input">
+                            <option value="slow" data-i18n="slow">کند</option>
+                            <option value="normal" selected data-i18n="normal">عادی</option>
+                            <option value="fast" data-i18n="fast">سریع</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="winScoreSelect" id="winScoreLabel" data-i18n="winScore">امتیاز برد:</label>
+                        <select id="winScoreSelect" class="select-input">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="15">15</option>
+                            <option value="21">21</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="soundEffectsCheck" checked>
+                            <span id="soundEffectsLabel" data-i18n="soundEffects">افکت صوتی</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="showFpsCheck">
+                            <span id="showFpsLabel" data-i18n="showFps">نمایش FPS</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3 id="controlsTitle" data-i18n="controls">کنترل‌ها</h3>
+                    <div class="controls-info">
+                        <div class="control-item">
+                            <span class="control-key" data-i18n="player1Controls">بازیکن ۱: W / S</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key" data-i18n="player2Controls">بازیکن ۲: ↑ / ↓</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="control-key" data-i18n="pauseKey">توقف: Space</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-panel">
+                    <button id="statsBtn" class="btn btn-secondary" data-i18n="statistics">آمار بازی</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="statsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="statsModalTitle" data-i18n="statistics">آمار بازی</h2>
+                <button class="modal-close" id="statsModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label" id="totalGamesLabel" data-i18n="totalGames">تعداد بازی‌ها:</span>
+                        <span class="stat-value" id="totalGamesValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="player1WinsLabel" data-i18n="player1Wins">برد بازیکن ۱:</span>
+                        <span class="stat-value" id="player1WinsValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="player2WinsLabel" data-i18n="player2Wins">برد بازیکن ۲:</span>
+                        <span class="stat-value" id="player2WinsValue">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="avgGameTimeLabel" data-i18n="avgGameTime">میانگین زمان:</span>
+                        <span class="stat-value" id="avgGameTimeValue">0:00</span>
+                    </div>
+                </div>
+                <div class="history-section">
+                    <h3 id="historyTitle" data-i18n="history">تاریخچه بازی‌ها</h3>
+                    <div id="historyList" class="history-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="resetStatsBtn" class="btn btn-danger" data-i18n="resetStats">بازنشانی آمار</button>
+                <button id="closeStatsBtn" class="btn btn-secondary" data-i18n="close">بستن</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/script.js"></script>
+    <script src="../assets/tool-wrapper.js"></script>
+</body>
+</html>
+

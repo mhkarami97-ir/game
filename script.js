@@ -24,6 +24,22 @@ const tools = [
         enDesc: 'Find matching cards game',
         icon: '🃏'
     },
+    {
+        path: 'ping_pong',
+        faName: 'پینگ پنگ',
+        enName: 'Ping Pong',
+        faDesc: 'بازی پینگ پنگ دو نفره',
+        enDesc: 'Two-player ping pong game',
+        icon: '🏓'
+    },
+    {
+        path: 'rock_paper_scissors',
+        faName: 'سنگ کاغذ قیچی',
+        enName: 'Rock Paper Scissors',
+        faDesc: 'بازی سنگ کاغذ قیچی',
+        enDesc: 'Rock paper scissors game',
+        icon: '✊✋✌️'
+    },
 ];
 
 // Sort tools alphabetically by Persian name
